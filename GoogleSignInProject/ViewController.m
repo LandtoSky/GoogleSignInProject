@@ -7,7 +7,9 @@
 //
 
 #import "ViewController.h"
-#import <Google/SignIn.h>
+#import <GoogleSignIn/GoogleSignIn.h>
+
+#define kClientId @"243342693867-p2rktj1kmmqu0sd1dh78evqn86akjl8c.apps.googleusercontent.com"
 
 @interface ViewController()<GIDSignInDelegate, GIDSignInUIDelegate>{
     
@@ -21,23 +23,31 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    [GIDSignIn sharedInstance].uiDelegate = self;
-    [GIDSignIn sharedInstance].delegate = self;
+    GIDSignIn* signIn = [GIDSignIn sharedInstance];
+    //    if (self.fetchEmailToggle.isEnabled) {
+    signIn.shouldFetchBasicProfile = YES;
+    //    }
+    signIn.clientID = kClientId;
+    signIn.scopes = @[ @"profile", @"email" ];
+    signIn.delegate = self;
+    signIn.uiDelegate = self;
 
 }
 
 
-- (IBAction)onGoogleSignIn:(id)sender{
-    
+- (IBAction)onGoogleSignIn:(id)sender
+{
     [[GIDSignIn sharedInstance] signIn];
-    
+}
+
+- (IBAction)onGoolgeLogOut:(id)sender {
+     [[GIDSignIn sharedInstance] signOut];
 }
 
 
 
 #pragma mark - Google SignIn Delegate
 - (void)signInWillDispatch:(GIDSignIn *)signIn error:(NSError *)error{
-    
 }
 
 // Present Google SignIn ViewController
@@ -73,6 +83,8 @@ didDisconnectWithUser:(GIDGoogleUser *)user
     // Perform any operations when the user disconnects from app here.
     // ...
 }
+
+
 
 
 @end

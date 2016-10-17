@@ -33,9 +33,24 @@
 - (BOOL)application:(UIApplication *)app
             openURL:(NSURL *)url
             options:(NSDictionary *)options {
+    
+    /* Only Google Sign In */
+    
     return [[GIDSignIn sharedInstance] handleURL:url
                                sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
                                       annotation:options[UIApplicationOpenURLOptionsAnnotationKey]];
+    
+    /* Both Facebook & Google Sign */
+//    BOOL handled = [[FBSDKApplicationDelegate sharedInstance] application : application
+//                                                                  openURL : url
+//                                                        sourceApplication : sourceApplication
+//                                                               annotation : annotation];
+//    
+//    BOOL flag = [[GIDSignIn sharedInstance] handleURL:url
+//                                    sourceApplication:sourceApplication
+//                                           annotation:annotation];
+//    
+//    return handled | flag;
 }
 
 
